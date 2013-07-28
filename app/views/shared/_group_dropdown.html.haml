@@ -1,0 +1,23 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+.dropdown{:class => ["hang_#{hang}", defined?(dropdown_class) && dropdown_class]}
+  .button.toggle{:class => ("in_groups" if selected_groups.size > 0)}
+    - if selected_groups.size == all_groups.size
+      = t('all_groups')
+    - elsif selected_groups.size == 1
+      = selected_groups.first.name
+    - else
+      = t('.toggle', :count => selected_groups.size)
+    &#9660;
+
+  .wrapper
+    %ul.dropdown_list{:unSelectable => 'on', 'data-person_id' => (person.id if defined?(person) && person), 'data-service_uid' => (service_uid if defined?(service_uid)), 'data-person-short-name' => (person.first_name if defined?(person) && person)}
+      - for group in all_groups
+        = group_dropdown_list_item(group, group_pledge_ids[group.id] )
+
+      - if (dropdown_may_create_new_group && defined?(person) && person)
+        %li.newItem
+          .add_group
+            = link_to t('followers.index.add_a_new_group'), new_group_path(:person_id => person.id, :remote => true), :rel => 'facebox'

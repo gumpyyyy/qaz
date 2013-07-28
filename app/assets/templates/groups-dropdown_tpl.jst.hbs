@@ -1,0 +1,27 @@
+<div class="btn-group groups_dropdown check-group">
+    <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+        <span class="text"></span> <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <form class="necessaryForJS">
+        <li>
+            <input id="group_ids_public" type="checkbox" name="Public" class="group_ids public" value="public" {{#if public}}checked="checked"{{/if}}/>
+            <label for="group_ids_public"><i class='icon-ok'/><span>Public</span></label></li>
+        <li>
+            <input id="group_ids_all_groups" type="checkbox" name="All Groups" class="group_ids all_groups" value="all_groups" {{#if all-groups}}checked="checked"{{/if}}/>
+            <label for="group_ids_all_groups"><i class='icon-ok'/><span>All Groups</span></label></li>
+        </li>
+
+        <li class="divider"></li>
+        {{#each groups}}
+            <li>
+                <input id="group_ids_{{id}}" type="checkbox" name="{{name}}" class="group_ids" value="{{id}}" {{#if checked}}checked="checked"{{/if}}/>
+                <label for="group_ids_{{id}}"><i class='icon-ok'/><span>{{name}}</span></label>
+            </li>
+        {{/each}}
+        </form>
+    </ul>
+</div>
+
+<input type="hidden" class="group_ids"/>
+

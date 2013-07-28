@@ -1,0 +1,8 @@
+.span7.offset1.well
+  = t('.invited_by')
+  .media
+    .float-right
+      = group_pledge_dropdown(follower, inviter, false)
+    = person_image_link(inviter, :class => 'img')
+    .bd
+      = person_link(inviter)

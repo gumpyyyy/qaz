@@ -1,0 +1,14 @@
+$(document).ready(function() {
+
+  var padlockImg = $("#follower_visibility_padlock");
+
+  if (padlockImg.hasClass('icons-padlock-open')) {
+    padlockImg.removeClass('icons-padlock-open');
+    padlockImg.addClass('icons-padlock-closed');
+    padlockImg.attr('title', "<%= t('groups.edit.group_list_is_not_visible') %>");
+  } else {
+    padlockImg.removeClass('icons-padlock-closed');
+    padlockImg.addClass('icons-padlock-open');
+    padlockImg.attr('title', "<%= t('groups.edit..group_list_is_visible') %>");
+  }
+});

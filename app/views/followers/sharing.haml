@@ -1,0 +1,30 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+#group_edit_pane
+  #facebox_header
+    .right
+      = t('followers', :count =>@followers.count)
+
+    %h3#group_name_title
+      %span.name= t('.people_sharing')
+
+  - if @followers.count > 0
+    .follower_list
+      = search_field_tag :follower_search, "", :id => 'follower_list_search', :class => 'follower_list_search', :results => 5, :placeholder => "People sharing with you"
+      %ul
+        - for follower in @followers
+          %li{:data=>{:follower_id=>follower.id}}
+            = person_image_tag follower.person
+            %h4.name
+              = link_to follower.person_name, follower.person
+              .description
+                = follower.person_lygneo_handle
+
+            .right
+              = group_pledge_dropdown(follower, follower.person, 'right')
+
+  %br
+  %div{:style => "text-align:right;"}
+    = link_to t('groups.edit.done'), '#', :class => 'button', :rel => 'close'

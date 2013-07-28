@@ -1,0 +1,6 @@
+- unless person == current_user.person
+  - follower = current_user.followers.find_by_person_id(person.id)
+  - follower ||= Follower.new(:person => person)
+  = group_pledge_dropdown(follower, person, 'left')
+-else
+  = t('people.person.thats_you')

@@ -1,0 +1,51 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+- content_for :head do
+  = jquery_include_tag
+  = javascript_include_tag :main
+  = load_javascript_locales
+  = include_gon
+
+- content_for :custom_css do
+  :css
+    body {
+      background-color: #eee;
+    }
+
+= form_for StatusMessage.new, {:data => {:ajax => false}} do |status|
+  #message_container
+    = status.hidden_field :provider_display_name, :value => 'mobile'
+    = status.text_area :text, :placeholder => t('.whats_on_your_mind'), :style => "width:300px", :rows => 4, :autofocus => "autofocus"
+
+  %fieldset
+    %span#publisher_service_icons
+      - if current_user.services
+        - for service in current_user.services
+          = image_tag "social_media_logos/#{service.provider}-32x32.png", :title => service.provider.titleize, :class => "service_icon dim", :id =>"#{service.provider}", :maxchar => "#{service.class::MAX_CHARACTERS}"
+
+    %select{:id => "group_ids_", :name => "group_ids[]", :style => "float:right;"}
+      %option{:value => 'public'}
+        = t('public')
+
+      %option{:value => 'all_groups', :selected => true}
+        = t('all_groups')
+
+      - current_user.groups.each do |group|
+        %option{:value => group.id}
+          = "· #{group.name}"
+
+    %br
+    %br
+    
+    #fileInfo-publisher
+    #publisher_textarea_wrapper
+      %ul#photodropzone
+
+    #file-upload-publisher{:title => t('.upload_photos'), :class => 'btn'}
+      = image_tag 'icons/camera.png', :style => "height: 14px; width: 19px;", :alt => t('.upload_photos').titleize
+    #publisher_mobile
+      = submit_tag t('.share'), :class => 'btn primary', :id => "submit_new_message", :style => "position: absolute; right: 20px; bottom: 0px"
+
+    #publisher_photo_upload

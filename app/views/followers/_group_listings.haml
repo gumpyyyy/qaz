@@ -1,0 +1,37 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+%ul#group_nav.left_nav
+  %li.all_groups{:class => ("active" if params["set"] != "all" && params["set"] != "only_sharing" && !@spotlight)}
+    %a.home_selector{:href => followers_path, :class => ("sub_selected" if params["a_id"])}
+      = t('followers.index.my_followers')
+      .follower_count
+        = my_followers_count
+
+    %ul.sub_nav
+      - all_groups.each do |group|
+        %li.group_element{:data => {:group_id => group.id}, :class => ("active" if params["a_id"].to_i == group.id)}
+          .icons-check_yes_ok{:class => ("invisible" if params["a_id"].to_i != group.id) }
+          %a.community_group_selector{:href => followers_path(:a_id => group.id)}
+            = group
+          .follower_count
+            = group.followers.size
+
+      %li
+        = link_to t('groups.group_listings.add_an_group'), new_group_path, :class => "new_group", :rel => "facebox"
+
+  %li.all_followers{:class => ("active" if params["set"] == "all" || params["set"] == "only_sharing")}
+    %a.home_selector{:href => followers_path(:set => "all"), :class => ("sub_selected" if params["set"] == "only_sharing")}
+      = t('followers.index.all_followers')
+      .follower_count
+        = all_followers_count
+
+    %ul.sub_nav
+      %li.group_element{:class => ("active" if params["set"] == "only_sharing")}
+        .icons-check_yes_ok{:class => ("invisible" if params["set"] == "only_sharing")}
+        %a.community_group_selector{:href => followers_path(:set => "only_sharing")}
+          = t('followers.index.only_sharing_with_me')
+        .follower_count
+          = only_sharing_count
+

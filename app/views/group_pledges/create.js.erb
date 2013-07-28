@@ -1,0 +1,20 @@
+//   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+//   licensed under the Affero General Public License version 3 or later.  See
+//   the COPYRIGHT file.
+
+// TODO handle this completely in Backbone.js, then remove this view!
+
+var element = $(".add[data-group_id=<%= @group.id %>][data-person_id=<%= @follower.person_id%>]");
+
+if( $("#no_followers").is(':visible') ) {
+  $("#no_followers").fadeOut(200);
+}
+
+element.parent().html("<%= escape_javascript(render('group_pledges/add_to_group', :group_id => @group.id, :person_id => @person.id)) %>");
+
+if($('#groups_list').length == 1) {
+  $('.group_list').attr('data-follower_id', "<%= @follower_id %>");
+  $('.group_list ul').find('.add').each(function(a,b){$(b).attr('href', $(b).attr('href').replace('followers','group_pledges'));})
+};
+
+element.fadeTo(200,1);

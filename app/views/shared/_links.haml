@@ -1,0 +1,6 @@
+%li= link_to '@joinlygneo', "http://twitter.com/joinlygneo"
+%li= link_to 'github', "https://github.com/lygneo/lygneo"
+%li= link_to t('layouts.header.blog'), "http://blog.lygneofoundation.org/"
+%li= link_to t('layouts.application.whats_new'), changelog_url
+%li= link_to(t('layouts.header.code') + " " + pod_version, "#{root_path.chomp('/')}/source.tar.gz", {:title => t('layouts.application.source_package')}) unless request.url.match(/joinlygneo.com/)
+%li= link_to(t('layouts.application.toggle'), toggle_mobile_path)

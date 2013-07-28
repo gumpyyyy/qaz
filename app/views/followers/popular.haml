@@ -1,0 +1,30 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+- content_for :page_title do
+  = t('followers.spotlight.popular')
+
+- content_for :head do
+  = javascript_include_tag :people
+
+#section_header
+  %h2
+    = t('followers.index.title')
+
+= render 'shared/follower_sidebar'
+
+.span-18.last{:style => "position:relative;"}
+
+  - if AppConfig.settings.popular.suggest_email.present?
+    .right
+      = link_to t('followers.spotlight.suggest_member'), "mailto:#{AppConfig.settings.popular.suggest_email}", :class => "button"
+
+  %h3
+    = t('followers.spotlight.popular')
+  %br
+
+  #popular
+    - unless @people.blank?
+      - @people.each do |person|
+        = render 'popular/user', :person => person

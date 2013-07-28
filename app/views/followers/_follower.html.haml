@@ -1,0 +1,10 @@
+.stream_element{:id => follower.person_id}
+  .float-right
+    = follower_group_dropdown(follower)
+  .media
+    .img
+      = person_image_link(follower.person, :size => :thumb_small)
+    .bd
+      = person_link(follower.person)
+      .info
+        = follower.person_lygneo_handle

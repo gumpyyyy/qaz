@@ -1,0 +1,94 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+-if publisher_explain
+  :javascript
+    $(document).ready(function() {
+        if( app.publisher ) app.publisher.triggerGettingStarted();
+      });
+
+#publisher{:class => ((group == :profile || publisher_open) ? "mention_popup" : "closed")}
+  .content_creation
+    = form_for(StatusMessage.new) do |status|
+      = status.error_messages
+      %div
+        %params
+          #fileInfo
+          #publisher_textarea_wrapper
+            = link_to(content_tag(:div, nil, :class => 'icons-deletelabel'), "#", :id => "hide_publisher", :title => t('.discard_post'))
+            %ul#photodropzone
+            - if current_user.getting_started?
+              = status.text_area :fake_text, :rows => 2, :value => h(publisher_formatted_text), :tabindex => 1, :placeholder => "#{t('followers.index.start_a_conversation')}...",
+                :title => popover_with_close_html( '1. ' + t('shared.public_explain.share') ),
+                'data-content' => t('shared.public_explain.new_user_welcome_message')
+            - else
+              = status.text_area :fake_text, :rows => 2, :value => h(publisher_formatted_text), :tabindex => 1, :placeholder => "#{t('followers.index.start_a_conversation')}..."
+            = status.hidden_field :text, :value => h(publisher_hidden_text), :class => 'clear_on_submit'
+
+            #publisher-images
+              #locator.btn{:title => t('.get_location')}
+                = image_tag 'icons/marker.png', :alt => t('.get_location').titleize, :class => 'publisher_image'
+              #file-upload.btn{:title => t('.upload_photos')}
+                = image_tag 'icons/camera.png', :alt => t('.upload_photos').titleize, :class => 'publisher_image'
+            = hidden_field :location, :coords
+
+      - if publisher_public
+        = hidden_field_tag 'group_ids[]', "public"
+      - elsif all_groups_selected?(selected_groups)
+        = hidden_field_tag 'group_ids[]', "all_groups"
+      - else
+        - for group_id in group_ids
+          = hidden_field_tag 'group_ids[]', group_id.to_s
+
+      .options_and_submit
+        .public_toggle
+          %span#publisher_service_icons
+            - if current_user.services
+              - for service in current_user.services
+                = content_tag :div, nil,
+                              :title => "#{service.provider.titleize} (#{service.nickname})",
+                              :class => "social_media_logos-#{service.provider}-16x16 service_icon dim",
+                              :id    => "#{service.provider}",
+                              :maxchar => "#{service.class::MAX_CHARACTERS}",
+                              :data  => {:toggle=>'tooltip', :placement=>'bottom'}
+            %a{ :href => "#question_mark_pane", :class => 'question_mark', :rel => 'facebox', :title => t('shared.public_explain.manage') }
+              .icons-monotone_wrench_settings
+
+          .dropdown{ ! current_user.getting_started? ? {:class => "hang_right"} : { :class => "hang_right", :title => popover_with_close_html("2. #{t('shared.public_explain.control_your_audience')}"), 'data-content'=> t('shared.public_explain.visibility_dropdown')} }
+            .button.toggle.publisher
+              - if publisher_public
+                = t('public')
+              - elsif all_groups_selected?(selected_groups)
+                = t('all_groups')
+              - elsif selected_groups.size == 1
+                = selected_groups.first.name
+              - else
+                = t('shared.group_dropdown.toggle', :count => selected_groups.size)
+              &#9660;
+
+            .wrapper
+              %ul.dropdown_list{:unSelectable => 'on', 'data-person_id' => (person.id if defined?(person) && person), 'data-service_uid' => (service_uid if defined?(service_uid))}
+                %li.public.radio{"data-group_id" => "public", :class => ("selected" if publisher_public)}
+                  = t('public')
+
+                %li.divider.all_groups.radio{:style => "padding-bottom: 5px; border-bottom: 1px solid #ddd;", "data-group_id" => "all_groups", :class => ("selected" if (!publisher_public && all_groups_selected?(selected_groups)))}
+                  = t('all_groups')
+
+                - for group in all_groups
+                  = group_dropdown_list_item(group, !all_groups_selected?(selected_groups) && selected_groups.include?(group) )
+
+          %button{ :disabled => ("disabled" if publisher_hidden_text.blank?), :class => 'button post_preview_button'}
+            = t('.preview')
+
+          = status.submit t('.share'), :disabled => publisher_hidden_text.blank?, :class => 'button creation', :tabindex => 2
+
+          .facebox_content
+            #question_mark_pane
+              = render 'shared/public_explain'
+    = link_to '', followers_path(:group_ids => group_ids), :class => 'selected_followers_link hidden'
+
+
+    #publisher_photo_upload
+      = render 'photos/new_photo', :group_ids => group_ids.join(',')
+

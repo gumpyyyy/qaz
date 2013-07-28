@@ -1,0 +1,10 @@
+//   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+//   licensed under the Affero General Public License version 3 or later.  See
+//   the COPYRIGHT file.
+
+// TODO handle this completely in Backbone.js, then remove this view!
+
+var element = $(".added[data-group_id=<%= @group.id %>][data-person_id=<%= @follower.person_id%>]");
+element.parent().html("<%= escape_javascript(render('group_pledges/remove_from_group', :group => @group, :person => @follower.person, :follower => @follower)) %>");
+element.fadeTo(200,1);
+

@@ -1,0 +1,32 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+#group_edit_pane
+  #facebox_header{:data=>{:guid=>@group.id}}
+    %h3#group_name_title
+      %span.name= @group
+      %span.tiny_text
+        = link_to t('.rename'), '#', :id => 'rename_group_link'
+
+    #group_name_edit.hidden
+      = form_for @group, :remote => true do |group|
+        = group.text_field :name, :maxlength => 20
+        = group.submit t('.update'), 'data-disable-with' => t('.updating'), :class => 'button'
+
+  - if @followers.count > 0
+    = render 'shared/follower_list', :group => @group, :followers => @followers
+
+  %br
+  .bottom_submit_section
+    = button_to t('delete'), @group, :method => "delete", :data => { :confirm => t('.confirm_remove_group') }, :class => 'button delete'
+    - if @group.followers_visible
+      = link_to content_tag(:div, nil, :class => 'icons-padlock-open', :id => "follower_visibility_padlock", :title => t('.group_list_is_visible')),
+                            group_toggle_follower_visibility_path(@group), :class => 'follower_visibility_link', :method => :put, :remote => true
+
+    - else
+      = link_to content_tag(:div, nil, :class => 'icons-padlock-closed', :id => "follower_visibility_padlock", :title => t('.group_list_is_not_visible')),
+                            group_toggle_follower_visibility_path(@group), :class => 'follower_visibility_link', :method => :put, :remote => true
+
+    = submit_tag t('.done'), :class => 'button creation', :rel => 'close'
+

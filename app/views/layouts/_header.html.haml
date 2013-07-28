@@ -1,0 +1,14 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+%header
+    - unless current_user
+        .container{:style => "position:relative;"}
+            = link_to content_tag(:div, nil, :class => 'lygneo_header_logo branding-header-logo'), root_path
+
+            %ul#landing_nav
+                %li= link_to '@joinlygneo', "http://twitter.com/joinlygneo"
+                %li= link_to 'github', "https://github.com/lygneo/lygneo"
+                %li= link_to t('.blog'), 'http://blog.lygneofoundation.org/'
+                %li= link_to t('.login'), new_user_session_path, :class => 'login'

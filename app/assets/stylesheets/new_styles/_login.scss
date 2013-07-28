@@ -1,0 +1,21 @@
+#login {
+  position : absolute;
+  top : 0;
+  left : 0;
+  padding-top : 200px;
+  min-width : 100%;
+
+  //color : #fff;
+  text-align : center;
+
+  input[type=text],
+  input[type=password] {
+    width : 120px;
+  }
+
+  #forgot_password_link {
+    margin : 40px;
+    color : #999;
+    clear : all;
+  }
+}

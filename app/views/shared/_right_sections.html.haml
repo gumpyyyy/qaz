@@ -1,0 +1,97 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+
+- if AppConfig.settings.invitations.open?
+  .section
+    .title
+      .icons-plus
+      %h5.title-header
+        = t('shared.invitations.invite_your_friends')
+    .content
+      = render "shared/invitations"
+
+.section
+  .title
+    .icons-heart
+    %h5.title-header
+      = t('groups.index.new_here.title')
+  .content
+    != t('groups.index.new_here.follow', :link => link_to("#"+t('shared.publisher.new_user_prefill.newhere'), tag_path(:name => t('shared.publisher.new_user_prefill.newhere'))))
+    %br
+    = link_to(t('groups.index.new_here.learn_more'), "http://wiki.lygneofoundation.org/Welcoming_Committee")
+
+.section
+  .title
+    .icons-question
+    %h5.title-header
+      = t('groups.index.help.need_help')
+  .content
+    = t('groups.index.help.here_to_help')
+    %br
+    = t('groups.index.help.do_you')
+    %br
+    != t('groups.index.help.have_a_question', :link => link_to("#"+t('groups.index.help.tag_question'), tag_path(:name => t('groups.index.help.tag_question'))))
+    %br
+    != t('groups.index.help.find_a_bug', :link => link_to("#"+t('groups.index.help.tag_bug'), tag_path(:name => t('groups.index.help.tag_bug'))))
+    %br
+    != t('groups.index.help.feature_suggestion', :link => link_to("#"+t('groups.index.help.tag_feature'), tag_path(:name => t('groups.index.help.tag_feature'))))
+    %br
+    %br
+    %p
+      != t('groups.index.help.tutorials_wiki_and_forum', :tutorial => link_to("Diasporial" , "http://diasporial.com/tutorials", :target => '_blank'), :wiki => link_to('Wiki','http://wiki.lygneofoundation.org', :target => '_blank'), :forum => link_to("Forum", "http://www.lygneoforum.org/", :target => '_blank'))
+    %p
+      != t('groups.index.help.email_feedback', :link => link_to(t('groups.index.help.email_link'), "mailto:feedback@joinlygneo.com"))
+
+- unless AppConfig.configured_services.blank? || all_services_connected?
+  .section
+    .title
+      .icons-monotone_wrench_settings
+      %h5.title-header
+        = t('groups.index.services.heading')
+    .content
+      %div
+        = t('groups.index.services.content')
+
+      #right_service_icons
+        - AppConfig.configured_services.each do |service|
+          - unless current_user.services.any?{|x| x.provider == service}
+            = link_to(content_tag(:div, nil, :class => "social_media_logos-#{service.to_s.downcase}-24x24", :title => service.to_s.titleize), "/auth/#{service}")
+
+.section
+  .title
+    .icons-bookmark
+    %h5.title-header
+      = t('bookmarklet.heading')
+  .content
+    != t('bookmarklet.explanation', :link => link_to(t('bookmarklet.post_something'), magic_bookmarklet_link))
+
+- if AppConfig.settings.paypal_hosted_button_id.present?
+  .section
+    .title
+      .icons-coffee
+      %h5.title-header
+        = t('groups.index.donate')
+    .content
+      = t('groups.index.keep_pod_running', :pod => AppConfig.pod_uri.host)
+      %br
+      = render 'shared/donatepod'
+
+- if AppConfig.admins.podmin_email.present?
+  .section
+    .title
+      .icons-mail
+      %h5.title-header
+        = t('groups.index.help.any_problem')
+    .content
+      = t('groups.index.help.follower_podmin')
+      %br
+      %br
+      = link_to t('groups.index.help.mail_podmin'), "mailto:#{AppConfig.admins.podmin_email}", :class => "button"
+
+.section
+  .title
+  %ul.content
+    = render "shared/links"
+

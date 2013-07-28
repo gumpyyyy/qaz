@@ -1,0 +1,19 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+
+.follower_list_controls
+  = search_field_tag :follower_search, "", :id => "follower_list_search", :class => 'follower_list_search', :results => 5, :placeholder => t('.all_followers')
+  = t('followers', :count =>@group_followers_count)
+
+.follower_list.searchable
+  %ul.followers
+    - for follower in followers
+      %li.follower{:data=>{:follower_id=>follower.id}}
+        = person_image_tag follower.person
+        %h4.name
+          = link_to follower.person.name, follower.person
+        .right
+          = group_pledge_button(group, follower, follower.person)
+

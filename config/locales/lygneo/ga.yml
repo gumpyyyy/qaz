@@ -1,0 +1,60 @@
+#   Copyright (c) 2010-2013, Lygneo Inc.  This file is
+#   licensed under the Affero General Public License version 3 or later.  See
+#   the COPYRIGHT file.
+
+
+
+ga:
+  _applications: "Feidhmchláir"
+  _followers: "Teagmhálacha"
+  _home: "Baile"
+  groups:
+    index:
+      help:
+        email_link: "Ríomhphoist"
+  followers:
+    few: "%{count} teagmhálacha"
+    index:
+      my_followers: "Mo teagmhálacha"
+      title: "Teagmhálacha"
+    many: "%{count} teagmhálacha"
+    one: "1 teagmháil"
+    other: "%{count} teagmhálacha"
+    two: "%{count} teagmhálacha"
+    zero: "teagmhálacha"
+  conversations:
+    index:
+      inbox: "Bosca Isteach"
+    new:
+      send: "Seol"
+      subject: "ábhar"
+    show:
+      reply: "freagair"
+  delete: "Scrios"
+  email: "Ríomhphoist"
+  invitations:
+    new:
+      language: "Teanga"
+  layouts:
+    header:
+      login: "Logáil isteach"
+      logout: "Logáil amach"
+  notifier:
+    hello: "Haileo %{name}!"
+  password: "Pasfhocal"
+  posts:
+    show:
+      destroy: "Scrios"
+  registrations:
+    new:
+      email: "RÍOMHPHOIST"
+      enter_email: "Seoladh ríomhphoist"
+      password: "PASFHOCAL"
+      password_confirmation: "AN PASFFHOCAL ARÍS"
+      sign_up: "CLÁRÚCHÁN"
+      username: "AINM ÚSAIDEOIR"
+  search: "Cuardaigh"
+  users:
+    edit:
+      your_email: "Do ríomhphoist"
+  welcome: "Fáilte!"

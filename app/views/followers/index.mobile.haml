@@ -1,0 +1,24 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+- content_for :page_title do
+  = t('.title')
+
+- content_for :head do
+  = javascript_include_tag :people
+
+#section_header
+  %h2
+    = t('.title')
+
+.span-18.last
+  #people_stream.stream.followers
+    - if @followers.size > 0
+      - for follower in @followers
+        = render 'people/person', :person => follower.person, :follower => follower
+      = will_paginate @followers, :renderer => WillPaginate::ActionView::BootstrapLinkRenderer
+    - else
+      %h3.no_followers
+        = t('.no_followers')
+

@@ -1,0 +1,47 @@
+-#   Copyright (c) 2010-2011, Lygneo Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+- content_for :page_title do
+  - if @stream.tag_name
+    = @stream.display_tag_name
+  - else
+    = t('.whatup', :pod => @pod_url)
+
+
+- content_for :body_class do
+  = "tags_show"
+
+.span-6.tags_people
+  %h3
+    = t('people', :count => @stream.tagged_people_count)
+
+  .side_stream.stream
+    = render :partial => 'people/index', :locals => {:people => @stream.tagged_people}
+
+  %br
+
+  .section
+    = render "tags/followed_tags_listings"
+
+.span-15.last
+  .stream_container
+    #author_info
+      %h2
+        = @stream.display_tag_name
+        %small
+          = t('.followed_by')
+          = t('people', :count => @stream.tag_follow_count)
+
+    - if current_user
+      = render 'shared/publisher', :selected_groups => @stream.group_ids, :group_ids => @stream.group_ids, :for_all_groups => true, :group => @stream.group
+
+    %hr
+
+    #main_stream.stream
+
+    #paginate
+      %span.loader.hidden
+
+  %a{:id=>"back-to-top", :title=>"#{t('layouts.application.back_to_top')}", :href=>"#"}
+    &#8679;
